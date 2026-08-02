@@ -10,7 +10,7 @@ class SurveyResponse(Base):
     submitted_at = Column(DateTime(timezone=True), server_default=func.now())
     student_id = Column(String(64), nullable=True, index=True)
     program = Column(String(128), nullable=True)
-    semester = Column(String(32), nullable=True)
+    semester = Column(Integer, nullable=True, index=True)
     study_mode = Column(String(32), nullable=True)
     academic_period = Column(String(64), nullable=True)
     stress_level = Column(Integer, nullable=False)

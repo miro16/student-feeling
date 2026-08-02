@@ -1,7 +1,9 @@
+from typing import List
+
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from . import models, schemas
+from . import analysis, models, schemas
 from .database import engine, get_db
 
 models.Base.metadata.create_all(bind=engine)
@@ -11,6 +13,8 @@ app = FastAPI(title="System analizy samopoczucia studentów")
 
 @app.post("/responses/", response_model=schemas.SurveyResponse)
 def create_response(response: schemas.SurveyResponseCreate, db: Session = Depends(get_db)):
+    sentiment = analysis.detect_sentiment(response.free_text)
+    keywords = analysis.extract_keywords(response.free_text)
     db_response = models.SurveyResponse(
         student_id=response.student_id,
         program=response.program,
@@ -22,6 +26,8 @@ def create_response(response: schemas.SurveyResponseCreate, db: Session = Depend
         motivation_level=response.motivation_level,
         satisfaction_level=response.satisfaction_level,
         free_text=response.free_text,
+        sentiment=sentiment,
+        keywords=keywords,
     )
     db.add(db_response)
     db.commit()
@@ -37,6 +43,6 @@ def read_response(response_id: int, db: Session = Depends(get_db)):
     return db_response
 
 
-@app.get("/responses/")
+@app.get("/responses/", response_model=List[schemas.SurveyResponse])
 def list_responses(db: Session = Depends(get_db)):
     return db.query(models.SurveyResponse).order_by(models.SurveyResponse.submitted_at.desc()).all()

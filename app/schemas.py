@@ -1,3 +1,4 @@
+from datetime import datetime
 from pydantic import BaseModel, Field
 from typing import Optional
 
@@ -5,7 +6,7 @@ from typing import Optional
 class SurveyResponseCreate(BaseModel):
     student_id: Optional[str] = Field(None, description="Unikalny identyfikator studenta lub anonimowy kod")
     program: Optional[str] = Field(None, description="Kierunek studiów")
-    semester: Optional[str] = Field(None, description="Semestr")
+    semester: Optional[int] = Field(None, description="Semestr (numer)")
     study_mode: Optional[str] = Field(None, description="Tryb studiów")
     academic_period: Optional[str] = Field(None, description="Okres roku akademickiego")
     stress_level: int = Field(..., ge=1, le=5)
@@ -17,9 +18,8 @@ class SurveyResponseCreate(BaseModel):
 
 class SurveyResponse(SurveyResponseCreate):
     id: int
-    submitted_at: str
+    submitted_at: datetime
     sentiment: Optional[str]
     keywords: Optional[str]
 
-    class Config:
-        orm_mode = True
+    model_config = {"from_attributes": True}
