@@ -1,6 +1,6 @@
 from datetime import datetime
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import Optional, Union
 
 
 class SurveyResponseCreate(BaseModel):
@@ -19,6 +19,7 @@ class SurveyResponseCreate(BaseModel):
 class SurveyResponse(SurveyResponseCreate):
     id: int
     submitted_at: datetime
+    semester: Optional[Union[int, str]]
     sentiment: Optional[str]
     keywords: Optional[str]
 

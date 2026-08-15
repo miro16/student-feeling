@@ -1,0 +1,20 @@
+Stworzyć bazę danych i schemat SQLAlchemy.
+
+Napisać API FastAPI:
+endpoint do przesyłania ankiety
+endpointy do pobierania raportów/analiz
+
+Zbudować prosty front-end/prototyp w Streamlit:
+formularz ankiety
+widok wyników i wykresów
+
+Dodać analizę tekstu:
+czyszczenie tekstu
+tokenizacja
+słownik stresu/pozytywnych emocji
+prosta analiza sentymentu + klasyfikacja kategorii
+
+Zaprezentować wyniki:
+wykresy trendów w czasie
+rozkład nastrojów
+wykryte tematy / słowa kluczowe 

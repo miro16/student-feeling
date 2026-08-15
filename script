@@ -1,0 +1,1 @@
+python -c "import sqlite3; conn=sqlite3.connect('student_feeling.db'); cur=conn.cursor(); cur.execute('SELECT * FROM survey_responses'); rows=cur.fetchall(); print(rows); conn.close()"
